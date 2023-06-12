@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        String      @id @default(uuid()) @db.Uuid
+  name      String
+  family    String?
+  email     String      @unique
+  password  String
+  createAt  DateTime    @default(now()) @db.Timestamp()
+  Sessions  Sessions[]
+  Logs      Logs[]
+  BlackList BlackList[]
+}
+
+model Sessions {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  ip        String   @db.Inet
+  createdAt DateTime @default(now()) @db.Timestamp()
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, ip])
+}
+
+model BlackList {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  blockedAt DateTime @default(now()) @db.Timestamp()
+  unblockAt DateTime @db.Timestamp()
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Logs {
+  id      String    @id @default(uuid()) @db.Uuid
+  userId  String    @db.Uuid
+  label   LogLabels
+  detail  Json?     @db.JsonB
+  logedAt DateTime  @default(now()) @db.Timestamp()
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum LogLabels {
+  WrongPassword
+  NewLogin
+  NewBlock
+}
