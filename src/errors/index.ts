@@ -37,3 +37,9 @@ export class TooManyRequest extends HTTPError {
     super(message, StatusCodes.TOO_MANY_REQUESTS);
   }
 }
+
+export class NotFound extends HTTPError {
+  constructor(message: string) {
+    super(message, StatusCodes.NOT_FOUND);
+  }
+}
