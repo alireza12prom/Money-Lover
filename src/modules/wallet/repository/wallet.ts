@@ -1,4 +1,4 @@
-import { BaseRepository } from '../../public/interface';
+import { BaseRepository } from '../../../public/interface';
 import { IWalletRepository, NewWallet, UpdateWallet } from '../interface';
 
 export class WalletRepository extends BaseRepository implements IWalletRepository {

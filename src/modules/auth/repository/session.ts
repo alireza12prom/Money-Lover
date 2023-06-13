@@ -1,4 +1,4 @@
-import { Interfaces } from '../../public';
+import { Interfaces } from '../../../public';
 import { ISessionRepository, NewSession } from '../interface';
 
 export class SessionRepository

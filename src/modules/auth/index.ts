@@ -6,7 +6,7 @@ import {
   LogRepository,
   BlackListRepository
 } from './repository';
-import { prisma } from '../db';
+import { prisma } from '../../db';
 import { Router } from 'express';
 
 /**

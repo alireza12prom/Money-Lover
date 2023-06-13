@@ -1,6 +1,6 @@
 import { IRouter, Request, Response } from 'express';
 import { IAuthService } from './interface';
-import { Interfaces } from '../public';
+import { Interfaces } from '../../public';
 import { StatusCodes } from 'http-status-codes';
 import { getClientIp } from 'request-ip';
 

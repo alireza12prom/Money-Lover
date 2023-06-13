@@ -1,5 +1,5 @@
 import { Users, Sessions } from '@prisma/client';
-import { Interfaces } from '../../public/repository';
+import { Interfaces } from '../../../public/repository';
 
 export type SignupInput = Pick<Users, 'name' | 'family' | 'email' | 'password'>;
 export type SigninInput = Pick<Users, 'email' | 'password'> & { ip: string | null };

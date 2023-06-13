@@ -2,8 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import { controller as authController } from './auth';
-import { controller as walletController } from './wallet';
+import { authController, walletController } from './modules';
 
 const app = express();
 dotenv.config();

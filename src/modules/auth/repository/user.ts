@@ -1,5 +1,5 @@
 import { IUserRepository, SignupInput } from '../interface';
-import { Interfaces } from '../../public';
+import { Interfaces } from '../../../public';
 
 export class UserRepository extends Interfaces.BaseRepository implements IUserRepository {
   async create(input: SignupInput) {

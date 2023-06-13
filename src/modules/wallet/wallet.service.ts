@@ -1,6 +1,6 @@
-import { BadRequest, NotFound } from '../errors';
-import { BaseLogRepository } from '../public/repository';
-import { ValidatorService } from '../public/service';
+import { BadRequest, NotFound } from '../../errors';
+import { BaseLogRepository } from '../../public/repository';
+import { ValidatorService } from '../../public/service';
 
 import {
   DeleteWallet,

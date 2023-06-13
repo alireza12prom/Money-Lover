@@ -1,8 +1,8 @@
 import { IRouter, Request, Response } from 'express';
-import { Interfaces } from '../public';
+import { Interfaces } from '../../public';
 import { IWalletService } from './interface';
 import { StatusCodes } from 'http-status-codes';
-import { authorization } from '../public/controller';
+import { authorization } from '../../public/controller';
 
 export class WalletController extends Interfaces.BaseController {
   private readonly _service;

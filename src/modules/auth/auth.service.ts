@@ -1,14 +1,14 @@
 import { Prisma, Sessions } from '@prisma/client';
-import { BadRequest, Forbidden, TooManyRequest, Unauthorized } from '../errors';
+import { BadRequest, Forbidden, TooManyRequest, Unauthorized } from '../../errors';
 import { SigninSchema, SignupSchema } from './schema';
-import config from '../config/index.json';
+import config from '../../config/index.json';
 
 import {
   ValidatorService,
   PasswordService,
   TokenService,
   IPService
-} from '../public/service';
+} from '../../public/service';
 
 import {
   IUserRepository,

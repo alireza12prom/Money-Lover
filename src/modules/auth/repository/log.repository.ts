@@ -1,6 +1,6 @@
-import { BaseLogRepository } from '../../public/repository';
-import { TimeService } from '../../public/service';
-import config from '../../config/index.json';
+import { BaseLogRepository } from '../../../public/repository';
+import { TimeService } from '../../../public/service';
+import config from '../../../config/index.json';
 import { ILogRepository } from '../interface';
 
 export class LogRepository extends BaseLogRepository implements ILogRepository {
