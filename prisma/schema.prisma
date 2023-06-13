@@ -20,6 +20,7 @@ model Users {
   Sessions  Sessions[]
   Logs      Logs[]
   BlackList BlackList[]
+  Wallets   Wallets[]
 }
 
 model Sessions {
@@ -42,6 +43,19 @@ model BlackList {
   user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Wallets {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  name      String   @db.VarChar(25)
+  balance   Decimal  @db.Decimal(19, 4)
+  currency  Currency
+  freeze    Boolean  @default(false) @db.Boolean
+  createdAt DateTime @default(now()) @db.Timestamp()
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp()
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Logs {
   id      String    @id @default(uuid()) @db.Uuid
   userId  String    @db.Uuid
@@ -52,8 +66,16 @@ model Logs {
   user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum Currency {
+  IRR
+  USD
+  EUR
+}
+
 enum LogLabels {
   WrongPassword
   NewLogin
   NewBlock
+  NewWallet
+  MissedWallet
 }
