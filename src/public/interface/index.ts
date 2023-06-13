@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { IRouter, Request, Response } from 'express';
+import { IRouter, NextFunction, Request, Response } from 'express';
 import { HTTPError } from '../../errors';
 import { StatusCodes } from 'http-status-codes';
 
@@ -16,10 +16,11 @@ export abstract class BaseController {
     return this._router;
   }
 
-  protected static wrapper(controller: Controller) {
-    return async (req: Request, res: Response) => {
+  protected static wrapper(controller: Controller, callNext = false) {
+    return async (req: Request, res: Response, next: NextFunction) => {
       try {
         await controller(req, res);
+        callNext && next();
       } catch (error) {
         console.log(error);
 

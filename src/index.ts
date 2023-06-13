@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { controller as authController } from './auth';
+import { controller as walletController } from './wallet';
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 
 // Controllers
 app.use('/api/v1/auth', authController.router);
+app.use('/api/v1/wallet', walletController.router);
 
 // Listening
 const PORT = parseInt(process.env.PORT as string) || 3000;
