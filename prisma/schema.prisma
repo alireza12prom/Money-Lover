@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -11,16 +12,17 @@ datasource db {
 }
 
 model Users {
-  id        String      @id @default(uuid()) @db.Uuid
-  name      String
-  family    String?
-  email     String      @unique
-  password  String
-  createAt  DateTime    @default(now()) @db.Timestamp()
-  Sessions  Sessions[]
-  Logs      Logs[]
-  BlackList BlackList[]
-  Wallets   Wallets[]
+  id                String              @id @default(uuid()) @db.Uuid
+  name              String
+  family            String?
+  email             String              @unique
+  password          String
+  createAt          DateTime            @default(now()) @db.Timestamp()
+  Sessions          Sessions[]
+  Logs              Logs[]
+  BlackList         BlackList[]
+  Wallets           Wallets[]
+  TransactionLabels TransactionLabels[]
 }
 
 model Sessions {
@@ -53,7 +55,8 @@ model Wallets {
   createdAt DateTime @default(now()) @db.Timestamp()
   updatedAt DateTime @default(now()) @updatedAt @db.Timestamp()
 
-  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Transactions Transactions[]
 }
 
 model Logs {
@@ -64,6 +67,46 @@ model Logs {
   logedAt DateTime  @default(now()) @db.Timestamp()
 
   user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Transactions {
+  id        String   @id @default(uuid()) @db.Uuid
+  labelId   String   @db.Uuid
+  walletId  String   @db.Uuid
+  amount    Decimal  @db.Decimal(19, 4)
+  note      String   @db.Text
+  createdAt DateTime @default(now()) @db.Timestamp()
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp()
+
+  wallet Wallets           @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  label  TransactionLabels @relation(fields: [labelId], references: [id], onDelete: Cascade)
+}
+
+model TransactionLabels {
+  id           String               @id @default(uuid()) @db.Uuid
+  author       String               @db.Uuid
+  title        String               @db.VarChar(15)
+  category     TransactionsCategory
+  Transactions Transactions[]
+
+  user Users @relation(fields: [author], references: [id], onDelete: Cascade)
+}
+
+// views
+view view_trans_1 {
+  id        String   @unique @db.Uuid
+  walletId  String   @db.Uuid
+  amount    Decimal  @db.Decimal(19, 4)
+  note      String
+  createdAt DateTime @db.Timestamp(6)
+  updatedAt DateTime @db.Timestamp(6)
+  label     Json
+}
+
+// enums
+enum TransactionsCategory {
+  EXPENSE
+  INCOME
 }
 
 enum Currency {
