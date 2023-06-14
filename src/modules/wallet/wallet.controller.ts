@@ -34,7 +34,7 @@ export class WalletController extends Interfaces.BaseController {
   private async getWallets(req: Request, res: Response) {
     const { id } = req.user;
 
-    const wallets = await this._service.getWallets(id);
+    const wallets = await this._service.getWallets({ userId: id });
     res.status(StatusCodes.OK).json(wallets);
   }
 

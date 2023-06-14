@@ -2,13 +2,7 @@ import { BadRequest, NotFound } from '../../errors';
 import { BaseLogRepository } from '../../public/repository';
 import { ValidatorService } from '../../public/service';
 
-import {
-  DeleteWallet,
-  IWalletRepository,
-  IWalletService,
-  NewWallet,
-  UpdateWallet
-} from './interface';
+import { IWalletRepository, IWalletService, InputServiceType } from './interface';
 import { DeleteWalletSchema, NewWalletSchema, UpdateWalletSchema } from './schema';
 
 export class WalletService implements IWalletService {
@@ -17,9 +11,15 @@ export class WalletService implements IWalletService {
     private readonly _logRepo: BaseLogRepository
   ) {}
 
-  async newWallet(input: NewWallet) {
+  async getWallets(input: InputServiceType.GetWallet) {
+    return await this._walletRepo.get(input);
+  }
+
+  async newWallet(input: InputServiceType.NewWallet) {
     // validate input
-    const validate = new ValidatorService<NewWallet>(input).validate(NewWalletSchema);
+    const validate = new ValidatorService<InputServiceType.NewWallet>(input).validate(
+      NewWalletSchema
+    );
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -32,13 +32,9 @@ export class WalletService implements IWalletService {
     return await this._walletRepo.create(input);
   }
 
-  async getWallets(userId: string) {
-    return await this._walletRepo.get(userId);
-  }
-
-  async deleteWallet(input: DeleteWallet) {
+  async deleteWallet(input: InputServiceType.DeleteWallet) {
     // validate input
-    const validate = new ValidatorService<DeleteWallet>(input).validate(
+    const validate = new ValidatorService<InputServiceType.DeleteWallet>(input).validate(
       DeleteWalletSchema
     );
     if (typeof validate == 'string') throw new BadRequest(validate);
@@ -60,9 +56,9 @@ export class WalletService implements IWalletService {
     });
   }
 
-  async updateWallet(input: UpdateWallet) {
+  async updateWallet(input: InputServiceType.UpdateWallet) {
     // validate input
-    const validate = new ValidatorService<UpdateWallet>(input).validate(
+    const validate = new ValidatorService<InputServiceType.UpdateWallet>(input).validate(
       UpdateWalletSchema
     );
     if (typeof validate == 'string') throw new BadRequest(validate);

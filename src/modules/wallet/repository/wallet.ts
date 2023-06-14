@@ -1,15 +1,15 @@
 import { BaseRepository } from '../../../public/interface';
-import { IWalletRepository, NewWallet, UpdateWallet } from '../interface';
+import { IWalletRepository, InputRepositoryType } from '../interface';
 
 export class WalletRepository extends BaseRepository implements IWalletRepository {
-  async create(input: NewWallet) {
-    return await this.client.wallets.create({ data: input });
+  async get(input: InputRepositoryType.GetWallet) {
+    return await this.client.wallets.findMany({
+      where: { userId: input.userId }
+    });
   }
 
-  async get(userId: string) {
-    return await this.client.wallets.findMany({
-      where: { userId }
-    });
+  async create(input: InputRepositoryType.NewWallet) {
+    return await this.client.wallets.create({ data: input });
   }
 
   async delete(walletId: string) {
@@ -18,7 +18,7 @@ export class WalletRepository extends BaseRepository implements IWalletRepositor
     });
   }
 
-  async update(input: UpdateWallet) {
+  async update(input: InputRepositoryType.UpdateWallet) {
     return await this.client.wallets.update({
       where: { id: input.walletId },
       data: {
