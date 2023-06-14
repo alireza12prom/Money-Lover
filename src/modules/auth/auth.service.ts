@@ -15,9 +15,8 @@ import {
   IAuthService,
   ISessionRepository,
   ILogRepository,
-  SigninInput,
-  SignupInput,
-  IBlackListpository
+  IBlackListpository,
+  InputServiceType
 } from './interface';
 
 export class AuthService implements IAuthService {
@@ -28,9 +27,11 @@ export class AuthService implements IAuthService {
     private readonly _sessionRepo: ISessionRepository
   ) {}
 
-  public async signup(input: SignupInput) {
+  public async signup(input: InputServiceType.SignupInput) {
     // validate input
-    const validate = new ValidatorService<SignupInput>(input).validate(SignupSchema);
+    const validate = new ValidatorService<InputServiceType.SignupInput>(input).validate(
+      SignupSchema
+    );
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -50,9 +51,11 @@ export class AuthService implements IAuthService {
     }
   }
 
-  public async signin(input: SigninInput) {
+  public async signin(input: InputServiceType.SigninInput) {
     // validate input
-    const validate = new ValidatorService<SigninInput>(input).validate(SigninSchema);
+    const validate = new ValidatorService<InputServiceType.SigninInput>(input).validate(
+      SigninSchema
+    );
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -82,7 +85,7 @@ export class AuthService implements IAuthService {
           await this._logRepo.create('NewBlock', user.id);
         });
 
-        await this._blacklistRepo.create(user.id);
+        await this._blacklistRepo.create({ userId: user.id });
         throw new TooManyRequest('Limit in wrong password');
       }
       throw new Unauthorized('Email and Password do not match');

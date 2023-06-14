@@ -1,13 +1,13 @@
 import { BaseRepository } from '../../../public/interface';
 import { TimeService } from '../../../public/service';
 import config from '../../../config/index.json';
-import { IBlackListpository } from '../interface';
+import { IBlackListpository, InputBlackListpositoryType } from '../interface';
 
 export class BlackListRepository extends BaseRepository implements IBlackListpository {
-  async create(userId: string) {
+  async create(input: InputBlackListpositoryType.NewBlackList) {
     await this.client.blackList.create({
       data: {
-        userId,
+        userId: input.userId,
         unblockAt: TimeService.nextNHourDate(config.BlockPolicy.BLOCK_FOR)
       }
     });

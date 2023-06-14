@@ -1,11 +1,11 @@
 import { Interfaces } from '../../../public';
-import { ISessionRepository, NewSession } from '../interface';
+import { ISessionRepository, InputSessionRepositoryType } from '../interface';
 
 export class SessionRepository
   extends Interfaces.BaseRepository
   implements ISessionRepository
 {
-  async create(input: NewSession) {
+  async create(input: InputSessionRepositoryType.NewSession) {
     return await this.client.sessions.create({ data: input });
   }
 
