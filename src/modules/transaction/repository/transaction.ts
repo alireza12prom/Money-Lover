@@ -1,11 +1,11 @@
 import { BaseRepository } from '../../../public/interface';
-import { ITransactionRepository, TransInputsRepo } from '../interface';
+import { ITransactionRepository, InputTransactionRepositoryType } from '../interface';
 
 export class TransactionRepository
   extends BaseRepository
   implements ITransactionRepository
 {
-  async get(input: TransInputsRepo.Get) {
+  async get(input: InputTransactionRepositoryType.GetTransactions) {
     const start_date = new Date(
       `${input.year}-${input.month >= 10 ? '' : '0'}${input.month}`
     );
@@ -36,7 +36,7 @@ export class TransactionRepository
         GROUP BY label ORDER BY max("createdAt") DESC;`;
   }
 
-  async create(input: TransInputsRepo.Create) {
+  async create(input: InputTransactionRepositoryType.NewTransaction) {
     const [_, transaction] = await this.client.$transaction([
       // updaet wallet
       this.client.wallets.update({
@@ -62,7 +62,7 @@ export class TransactionRepository
     return transaction;
   }
 
-  async update(input: TransInputsRepo.Update) {
+  async update(input: InputTransactionRepositoryType.UpdateTransaction) {
     let backAmount = 0;
     const transaction = input.transaction;
 
@@ -100,7 +100,7 @@ export class TransactionRepository
     return updatedTransaction;
   }
 
-  async delete(transaction: TransInputsRepo.Delete) {
+  async delete(transaction: InputTransactionRepositoryType.DeleteTransaction) {
     await this.client.$transaction([
       // delete transaction
       this.client.transactions.delete({

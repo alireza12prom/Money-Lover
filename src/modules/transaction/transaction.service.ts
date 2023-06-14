@@ -10,19 +10,11 @@ import {
 } from './schema';
 
 import {
-  DeleteTransaction,
-  DeleteTransactionLabel,
-  GetTransactionLabel,
-  GetTransactions,
+  InputTransactionType,
   ITransactionLabelRepository,
   ITransactionRepository,
   ITransactionService,
-  IWalletRepository,
-  NewTransaction,
-  NewTransactionLabel,
-  TransInputsRepo,
-  UpdateTransaction,
-  UpdateTransactionLabel
+  IWalletRepository
 } from './interface';
 
 export class TransactionService implements ITransactionService {
@@ -32,11 +24,11 @@ export class TransactionService implements ITransactionService {
     private readonly _transLabelRepo: ITransactionLabelRepository
   ) {}
 
-  async newTransaction(input: NewTransaction) {
+  async newTransaction(input: InputTransactionType.NewTransaction) {
     // validate input
-    const validate = new ValidatorService<NewTransaction>(input).validate(
-      NewTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.NewTransaction>(
+      input
+    ).validate(NewTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -61,11 +53,11 @@ export class TransactionService implements ITransactionService {
     return await this._transRepo.create({ ...input, label });
   }
 
-  async getTransactions(input: GetTransactions) {
+  async getTransactions(input: InputTransactionType.GetTransactions) {
     // validate input
-    const validate = new ValidatorService<GetTransactions>(input).validate(
-      GetTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.GetTransactions>(
+      input
+    ).validate(GetTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -77,11 +69,11 @@ export class TransactionService implements ITransactionService {
     return await this._transRepo.get(input);
   }
 
-  async updateTransaction(input: UpdateTransaction) {
+  async updateTransaction(input: InputTransactionType.UpdateTransaction) {
     // validate input
-    const validate = new ValidatorService<UpdateTransaction>(input).validate(
-      UpdateTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.UpdateTransaction>(
+      input
+    ).validate(UpdateTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -107,11 +99,11 @@ export class TransactionService implements ITransactionService {
     return await this._transRepo.update({ ...input, label, transaction });
   }
 
-  async deleteTransaction(input: DeleteTransaction) {
+  async deleteTransaction(input: InputTransactionType.DeleteTransaction) {
     // validate input
-    const validate = new ValidatorService<DeleteTransaction>(input).validate(
-      DeleteTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.DeleteTransaction>(
+      input
+    ).validate(DeleteTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -122,14 +114,14 @@ export class TransactionService implements ITransactionService {
     }
 
     // delete transaction
-    await this._transRepo.delete(transaction as TransInputsRepo.Delete);
+    await this._transRepo.delete(transaction);
   }
 
-  async newLabel(input: NewTransactionLabel) {
+  async newLabel(input: InputTransactionType.NewTransactionLabel) {
     // validate input
-    const validate = new ValidatorService<NewTransactionLabel>(input).validate(
-      NewTransactionLabelSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.NewTransactionLabel>(
+      input
+    ).validate(NewTransactionLabelSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -137,22 +129,22 @@ export class TransactionService implements ITransactionService {
     return await this._transLabelRepo.create(input);
   }
 
-  async getLabel(input: GetTransactionLabel) {
+  async getLabel(input: InputTransactionType.GetTransactionLabel) {
     // validate input
-    const validate = new ValidatorService<GetTransactionLabel>(input).validate(
-      GetTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.GetTransactionLabel>(
+      input
+    ).validate(GetTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
     return await this._transLabelRepo.get(input);
   }
 
-  async updateLabel(input: UpdateTransactionLabel) {
+  async updateLabel(input: InputTransactionType.UpdateTransactionLabel) {
     // validate input
-    const validate = new ValidatorService<UpdateTransactionLabel>(input).validate(
-      UpdateTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.UpdateTransactionLabel>(
+      input
+    ).validate(UpdateTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 
@@ -166,11 +158,11 @@ export class TransactionService implements ITransactionService {
     return await this._transLabelRepo.update(input);
   }
 
-  async deleteLabel(input: DeleteTransactionLabel) {
+  async deleteLabel(input: InputTransactionType.DeleteTransactionLabel) {
     // validate input
-    const validate = new ValidatorService<DeleteTransactionLabel>(input).validate(
-      DeleteTransactionSchema
-    );
+    const validate = new ValidatorService<InputTransactionType.DeleteTransactionLabel>(
+      input
+    ).validate(DeleteTransactionSchema);
     if (typeof validate == 'string') throw new BadRequest(validate);
     else input = validate;
 

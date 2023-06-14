@@ -1,29 +1,26 @@
 import { BaseRepository } from '../../../public/interface';
 import {
-  DeleteTransactionLabel,
-  GetTransactionLabel,
   ITransactionLabelRepository,
-  NewTransactionLabel,
-  UpdateTransactionLabel
+  InputTransactionLabelRepositoryType
 } from '../interface';
 
 export class TransactionLabelRepository
   extends BaseRepository
   implements ITransactionLabelRepository
 {
-  async get(input: GetTransactionLabel) {
+  async get(input: InputTransactionLabelRepositoryType.GetTransactionLabel) {
     return await this.client.transactionLabels.findMany({
       where: { author: input.author }
     });
   }
 
-  async create(input: NewTransactionLabel) {
+  async create(input: InputTransactionLabelRepositoryType.NewTransactionLabel) {
     return await this.client.transactionLabels.create({
       data: input
     });
   }
 
-  async update(input: UpdateTransactionLabel) {
+  async update(input: InputTransactionLabelRepositoryType.UpdateTransactionLabel) {
     return await this.client.transactionLabels.update({
       where: {
         id: input.labelId
@@ -34,7 +31,7 @@ export class TransactionLabelRepository
     });
   }
 
-  async delete(input: DeleteTransactionLabel) {
+  async delete(input: InputTransactionLabelRepositoryType.DeleteTransactionLabel) {
     if (input.mergeTo) {
       await this.client.$transaction([
         // merge transaction to new label
