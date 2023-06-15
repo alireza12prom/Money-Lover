@@ -2,7 +2,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import { authController, walletController, transController } from './modules';
+
+import {
+  authController,
+  walletController,
+  transController,
+  labelController
+} from './modules';
 
 const app = express();
 dotenv.config();
@@ -15,6 +21,7 @@ app.use(bodyParser.json());
 app.use('/api/v1/auth', authController.router);
 app.use('/api/v1/wallet', walletController.router);
 app.use('/api/v1/transaction', transController.router);
+app.use('/api/v1/label', labelController.router);
 
 // Listening
 const PORT = parseInt(process.env.PORT as string) || 3000;

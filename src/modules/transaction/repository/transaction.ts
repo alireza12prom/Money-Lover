@@ -1,11 +1,11 @@
 import { BaseRepository } from '../../../public/interface';
-import { ITransactionRepository, InputTransactionRepositoryType } from '../interface';
+import { ITransactionRepository, InputTransRepoType } from '../interface';
 
 export class TransactionRepository
   extends BaseRepository
   implements ITransactionRepository
 {
-  async get(input: InputTransactionRepositoryType.GetTransactions) {
+  async get(input: InputTransRepoType.GetTransactions) {
     const start_date = new Date(
       `${input.year}-${input.month >= 10 ? '' : '0'}${input.month}`
     );
@@ -36,7 +36,7 @@ export class TransactionRepository
         GROUP BY label ORDER BY max("createdAt") DESC;`;
   }
 
-  async create(input: InputTransactionRepositoryType.NewTransaction) {
+  async create(input: InputTransRepoType.NewTransaction) {
     const [_, transaction] = await this.client.$transaction([
       // updaet wallet
       this.client.wallets.update({
@@ -62,17 +62,17 @@ export class TransactionRepository
     return transaction;
   }
 
-  async update(input: InputTransactionRepositoryType.UpdateTransaction) {
+  async update(input: InputTransRepoType.UpdateTransaction) {
     let backAmount = 0;
     const transaction = input.transaction;
 
-    if (input.labelId && input.label?.category != transaction.label.category) {
-      if (input.label?.category == 'EXPENSE') {
+    if (input.label && input.label.category != transaction.label.category) {
+      if (input.label.category == 'EXPENSE') {
         backAmount += 2 * -transaction.amount;
       } else {
         backAmount += 2 * +transaction.amount;
       }
-      transaction.label = input.label!;
+      transaction.label = input.label;
     }
 
     if (input.amount && input.amount != +transaction.amount) {
@@ -92,7 +92,7 @@ export class TransactionRepository
         where: { id: input.transId },
         data: {
           amount: input.amount,
-          labelId: input.labelId,
+          labelId: input.label?.id,
           note: input.note
         }
       })
@@ -100,7 +100,7 @@ export class TransactionRepository
     return updatedTransaction;
   }
 
-  async delete(transaction: InputTransactionRepositoryType.DeleteTransaction) {
+  async delete(transaction: InputTransRepoType.DeleteTransaction) {
     await this.client.$transaction([
       // delete transaction
       this.client.transactions.delete({

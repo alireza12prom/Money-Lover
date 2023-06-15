@@ -28,19 +28,6 @@ export class TransactionController extends BaseController {
       '/',
       TransactionController.wrapper(this.deleteTransaction.bind(this))
     );
-
-    this._router.post('/label', TransactionController.wrapper(this.newLabels.bind(this)));
-    this._router.get('/label', TransactionController.wrapper(this.getLabels.bind(this)));
-
-    this._router.patch(
-      '/label',
-      TransactionController.wrapper(this.deleteLabel.bind(this))
-    );
-
-    this._router.delete(
-      '/label',
-      TransactionController.wrapper(this.updateLabel.bind(this))
-    );
   }
 
   // transaction
@@ -77,37 +64,5 @@ export class TransactionController extends BaseController {
 
     await this._service.deleteTransaction({ userId: id, transId });
     res.status(StatusCodes.OK).send('DELETED');
-  }
-
-  // label
-  private async newLabels(req: Request, res: Response) {
-    const { id } = req.user;
-    const { title, category } = req.body;
-
-    const label = await this._service.newLabel({ author: id, category, title });
-    res.status(StatusCodes.CREATED).json(label);
-  }
-
-  private async getLabels(req: Request, res: Response) {
-    const { id } = req.user;
-
-    const labels = await this._service.getLabel({ author: id });
-    res.status(StatusCodes.OK).json(labels);
-  }
-
-  private async deleteLabel(req: Request, res: Response) {
-    const { id } = req.user;
-    const { labelId } = req.body;
-
-    await this._service.deleteLabel({ author: id, labelId });
-    res.status(StatusCodes.OK).send('DELETED');
-  }
-
-  private async updateLabel(req: Request, res: Response) {
-    const { id } = req.user;
-    const { labelId, title } = req.body;
-
-    const label = await this._service.updateLabel({ author: id, labelId, title });
-    res.status(StatusCodes.OK).json(label);
   }
 }

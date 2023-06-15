@@ -1,0 +1,1 @@
+export { LabelRepository } from './label';

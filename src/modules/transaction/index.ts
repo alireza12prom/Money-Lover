@@ -2,19 +2,15 @@ import { Router } from 'express';
 import { prisma } from '../../db';
 import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
-
-import {
-  WalletRepository,
-  TransactionRepository,
-  TransactionLabelRepository
-} from './repository';
+import { WalletRepository, TransactionRepository } from './repository';
+import { LabelRepository } from '../label/repository';
 
 /**
  * initialize repositories
  */
 const walletRepository = new WalletRepository(prisma);
 const transactionRepository = new TransactionRepository(prisma);
-const transactionLabelRepo = new TransactionLabelRepository(prisma);
+const labelRepository = new LabelRepository(prisma);
 
 /**
  * initialize services
@@ -22,7 +18,7 @@ const transactionLabelRepo = new TransactionLabelRepository(prisma);
 const transactionService = new TransactionService(
   transactionRepository,
   walletRepository,
-  transactionLabelRepo
+  labelRepository
 );
 
 /**
