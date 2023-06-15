@@ -107,10 +107,8 @@ export class AuthService implements IAuthService {
           throw new Forbidden(`you have currntly ${opened_sessions} opened sessions.`);
         }
 
-        // check if client want to loggin with a new ip, openinig a new session for it
-        if (!(await this._sessionRepo.exists(user.id, input.ip))) {
-          session = await this._sessionRepo.create({ userId: user.id, ip: input.ip });
-        }
+        // open a new session
+        session = await this._sessionRepo.create({ userId: user.id, ip: input.ip });
       } else {
         session = founded_session;
       }
@@ -123,13 +121,10 @@ export class AuthService implements IAuthService {
       await this._logRepo.create('NewLogin', user.id);
     });
 
-    // generate token
-    const accessToken = TokenService.genAccessToken(session!.id);
-    const refreshToken = TokenService.genRefreshToken(session!.id);
-
+    // generate access/refresh token
     return {
-      access: accessToken,
-      refresh: refreshToken
+      access: TokenService.genAccessToken(session!.id),
+      refresh: TokenService.genRefreshToken(session!.id)
     };
   }
 }

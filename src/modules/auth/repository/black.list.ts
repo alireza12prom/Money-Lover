@@ -1,6 +1,6 @@
-import { BaseRepository } from '../../../public/interface';
-import { TimeService } from '../../../public/service';
 import config from '../../../config/index.json';
+import { TimeService } from '../../../public/service';
+import { BaseRepository } from '../../../public/interface';
 import { IBlackListpository, InputBlackListpositoryType } from '../interface';
 
 export class BlackListRepository extends BaseRepository implements IBlackListpository {
