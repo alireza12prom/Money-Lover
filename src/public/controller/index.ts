@@ -7,7 +7,7 @@ async function authorization(req: Request, res: Response) {
   // check token exists in header
   const token = req.headers['authorization']?.split(' ').at(1);
   if (!token) {
-    throw new BadRequest('authorization token is request');
+    throw new BadRequest('authorization header is request');
   }
 
   // check token signuture & expiretion
