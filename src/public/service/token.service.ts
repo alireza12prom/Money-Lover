@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-
+import config from '../../config/index.json';
 interface AccessToken extends jwt.JwtPayload {
   id: string;
   ref: boolean;
@@ -9,17 +9,17 @@ export class TokenService {
   private constructor() {}
 
   static genAccessToken(id: string) {
-    const secret = process.env.TOKEN_SECRET as string;
+    const secret = config.Token.SECRET;
     return jwt.sign({ id, ref: false }, secret, { algorithm: 'HS384', expiresIn: '1d' });
   }
 
   static genRefreshToken(id: string) {
-    const secret = process.env.TOKEN_SECRET as string;
+    const secret = config.Token.SECRET;
     return jwt.sign({ id, ref: true }, secret, { algorithm: 'HS384', expiresIn: '7d' });
   }
 
   static validate(t: 'access' | 'refresh', token: string) {
-    const secret = process.env.TOKEN_SECRET as string;
+    const secret = config.Token.SECRET;
     try {
       const validatedToken = jwt.verify(token, secret) as AccessToken;
       if (t == 'access' && validatedToken.ref) {

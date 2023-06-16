@@ -1,4 +1,8 @@
 {
+  "Server": {
+    "HOST": "localhost",
+    "PORT": 5555
+  },
   "Session": {
     "MAX_OPEN_SESSION": 3
   },
@@ -10,5 +14,8 @@
   "User": {
     "MIN_PASSWORD_LENGTH": 5,
     "MAX_PASSWORD_LENGTH": 10
+  },
+  "Token": {
+    "SECRET": "secret"
   }
 }

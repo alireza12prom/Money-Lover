@@ -123,8 +123,8 @@ export class AuthService implements IAuthService {
 
     // generate access/refresh token
     return {
-      access: TokenService.genAccessToken(session!.id),
-      refresh: TokenService.genRefreshToken(session!.id)
+      access: TokenService.genAccessToken(session.id),
+      refresh: TokenService.genRefreshToken(session.id)
     };
   }
 }
