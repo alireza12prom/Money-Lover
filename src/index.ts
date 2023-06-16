@@ -7,7 +7,8 @@ import {
   authController,
   walletController,
   transController,
-  labelController
+  labelController,
+  profileController
 } from './modules';
 
 const app = express();
@@ -22,6 +23,7 @@ app.use('/api/v1/auth', authController.router);
 app.use('/api/v1/wallet', walletController.router);
 app.use('/api/v1/transaction', transController.router);
 app.use('/api/v1/label', labelController.router);
+app.use('/api/v1/profile', profileController.router);
 
 // Listening
 const PORT = parseInt(process.env.PORT as string) || 3000;

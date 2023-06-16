@@ -43,3 +43,9 @@ export class NotFound extends HTTPError {
     super(message, StatusCodes.NOT_FOUND);
   }
 }
+
+export class ServerError extends HTTPError {
+  constructor(message: string) {
+    super(message, StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}

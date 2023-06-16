@@ -6,5 +6,9 @@
     "MAX_TRIES": 3,
     "PERIOD": 1,
     "BLOCK_FOR": 1
+  },
+  "User": {
+    "MIN_PASSWORD_LENGTH": 5,
+    "MAX_PASSWORD_LENGTH": 10
   }
 }
